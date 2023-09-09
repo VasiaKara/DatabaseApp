@@ -1,0 +1,74 @@
+CREATE TABLE ΑΘΛΗΜΑ ( 
+	κωδικός	INTEGER	NOT NULL,
+	όνομα	VARCHAR(10),
+PRIMARY KEY (κωδικός) );
+
+CREATE TABLE ΤΜΗΜΑ_ΟΜΑΔΑΣ ( 
+	όνομα	VARCHAR(10),
+	κωδικός	INTEGER	NOT NULL,
+	FK1_κωδικός	INTEGER	NOT NULL,
+PRIMARY KEY (κωδικός) );
+
+CREATE TABLE ΑΝΘΡΩΠΟΣ ( 
+	διεύθυνση	VARCHAR(15),
+	επώνυμο	VARCHAR(10),
+	κωδικός	INTEGER	NOT NULL,
+	τηλέφωνο	CHAR(10),
+	όνομα	VARCHAR(10),
+PRIMARY KEY (κωδικός) );
+
+CREATE TABLE διδάσκει ( 
+	FK1_κωδικός	INTEGER	NOT NULL,
+	FK2_κωδικός	INTEGER	NOT NULL,
+PRIMARY KEY (FK1_κωδικός, FK2_κωδικός) );
+
+CREATE TABLE μαθαίνει ( 
+	FK1_κωδικός	INTEGER	NOT NULL,
+	FK2_κωδικός	INTEGER	NOT NULL,
+PRIMARY KEY (FK1_κωδικός, FK2_κωδικός) );
+
+CREATE TABLE είναι_μέλος ( 
+	FK1_κωδικός	INTEGER	NOT NULL,
+	FK2_κωδικός	INTEGER	NOT NULL,
+PRIMARY KEY (FK1_κωδικός, FK2_κωδικός) );
+
+CREATE TABLE ΕΡΑΣΙΤΕΧΝΙΚΟ ( 
+	κωδικός	INTEGER	NOT NULL,
+PRIMARY KEY (κωδικός) );
+
+CREATE TABLE ΕΠΑΓΓΕΛΜΑΤΙΚΟ ( 
+	κωδικός	INTEGER	NOT NULL,
+PRIMARY KEY (κωδικός) );
+
+CREATE TABLE ΑΘΛΗΤΗΣ ( 
+	ηλικία	INTEGER,
+	κωδικός	INTEGER	NOT NULL,
+PRIMARY KEY (κωδικός) );
+
+CREATE TABLE ΠΡΟΠΟΝΗΤΗΣ ( 
+	ειδικότητα	VARCHAR(10),
+	κωδικός	INTEGER	NOT NULL,
+PRIMARY KEY (κωδικός) );
+
+ALTER TABLE ΕΡΑΣΙΤΕΧΝΙΚΟ ADD FOREIGN KEY (κωδικός) REFERENCES ΤΜΗΜΑ_ΟΜΑΔΑΣ (κωδικός) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE ΕΠΑΓΓΕΛΜΑΤΙΚΟ ADD FOREIGN KEY (κωδικός) REFERENCES ΤΜΗΜΑ_ΟΜΑΔΑΣ (κωδικός) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE ΑΘΛΗΤΗΣ ADD FOREIGN KEY (κωδικός) REFERENCES ΑΝΘΡΩΠΟΣ (κωδικός) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE ΤΜΗΜΑ_ΟΜΑΔΑΣ ADD FOREIGN KEY (FK1_κωδικός) REFERENCES ΠΡΟΠΟΝΗΤΗΣ (κωδικός) ON DELETE SET NULL ON UPDATE CASCADE;
+
+ALTER TABLE ΠΡΟΠΟΝΗΤΗΣ ADD FOREIGN KEY (κωδικός) REFERENCES ΑΝΘΡΩΠΟΣ (κωδικός) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE διδάσκει ADD FOREIGN KEY (FK1_κωδικός) REFERENCES ΑΘΛΗΜΑ (κωδικός) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE διδάσκει ADD FOREIGN KEY (FK2_κωδικός) REFERENCES ΠΡΟΠΟΝΗΤΗΣ (κωδικός) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE μαθαίνει ADD FOREIGN KEY (FK1_κωδικός) REFERENCES ΑΘΛΗΤΗΣ (κωδικός) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE μαθαίνει ADD FOREIGN KEY (FK2_κωδικός) REFERENCES ΑΘΛΗΜΑ (κωδικός) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE είναι_μέλος ADD FOREIGN KEY (FK1_κωδικός) REFERENCES ΑΘΛΗΤΗΣ (κωδικός) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE είναι_μέλος ADD FOREIGN KEY (FK2_κωδικός) REFERENCES ΤΜΗΜΑ_ΟΜΑΔΑΣ (κωδικός) ON DELETE CASCADE ON UPDATE CASCADE;
+
